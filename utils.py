@@ -80,7 +80,7 @@ def make_scree_plot(data, n=5, threshold=0.95, show_first_PC=True):
     if show_first_PC:
         PC1 = pca.components_[0]
         plt.plot(np.linspace(1, n, len(PC1)), -PC1*0.3 + min(cdf) + 0.1, 'k', linewidth=2)
-        text = ax.text(1, min(cdf) + 0.13, '$PC_1$', ha="left", va="center", size=20)
+        text = ax.text(n - 1, min(cdf) + 0.13, '$PC_1$', ha="left", va="center", size=20)
 
     plt.xticks(x, fontsize=18)
     plt.yticks(fontsize=18)
