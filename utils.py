@@ -48,7 +48,7 @@ def download_files():
             else:
                 print(f'Already downloaded {filename}')
 
-def make_scree_plot(data, n=5, threshold=0.95, show_first_PC=True):
+def make_scree_plot(data, n=5, threshold=0.95, show_first_PC=True, mod=0):
     """
     Make PCA scree plot.
     
@@ -80,12 +80,29 @@ def make_scree_plot(data, n=5, threshold=0.95, show_first_PC=True):
     if show_first_PC:
         PC1 = pca.components_[0]
         plt.plot(np.linspace(1, n, len(PC1)), -PC1*0.3 + min(cdf) + 0.1, 'k', linewidth=2)
-        text = ax.text(n - 1, min(cdf) + 0.13, '$PC_1$', ha="left", va="center", size=20)
+        text = ax.text(n - 1, min(cdf) + 0.13, '$PC_1$', ha="right", va="bottom", size=20)
 
-    plt.xticks(x, fontsize=18)
+    if mod == 0:
+        xticks = np.arange(n) + 1
+    else:
+        xticks = np.arange(0, n + 1, mod)
+    plt.xticks(xticks, fontsize=18)
     plt.yticks(fontsize=18)
     plt.ylim(min(cdf) - 0.05, 1.02)
     ax.yaxis.set_major_formatter(FormatStrFormatter('%.2f'))
     plt.xlabel('Number of Parameters', fontsize=22)
     plt.ylabel(f'Cumultative\nExplained Variance', fontsize=22)
     ax.tick_params(direction='in', width=2, length=8)
+
+def set_axes(ax, minval, maxval, nticks=4, axis='x'):
+    spacing = 1 / (nticks + 2)
+    ticks = np.linspace(spacing, 1 - spacing, nticks)
+    if axis == 'x':
+        ax.set_xticks(ticks)
+    else:
+        ax.set_yticks(ticks)
+    tick_labels = [v * (maxval - minval) + minval for v in ticks]
+    if axis == 'x':
+        ax.set_xticklabels([f'{l:.2f}' for l in tick_labels])
+    else:
+        ax.set_yticklabels([f'{l:.2f}' for l in tick_labels])
