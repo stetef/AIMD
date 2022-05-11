@@ -11,6 +11,7 @@ import matplotlib.pyplot as plt
 from matplotlib.ticker import FormatStrFormatter
 
 from sklearn.decomposition import PCA
+from scipy.linalg import block_diag
 
 
 def read_file(filename):
